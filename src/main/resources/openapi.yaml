@@ -40,6 +40,33 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/LegalMove"
+  /evaluate:
+    post:
+      tags:
+      - "evaluation"
+      summary: "get an evaluation of the board"
+      operationId: "getBoardEvaluation"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "boardState"
+        description: "list of pieces and positions / castling information"
+        required: true
+        schema: 
+          $ref: "#/definitions/BoardState"
+      responses:
+        "200":
+          description: "list of legal moves"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BoardEvaluation"
+
 
 definitions:
   BoardState:
@@ -52,4 +79,8 @@ definitions:
     properties:
       text:
         type: string
-  
+  BoardEvaluation:
+    type: "object":
+    properties:
+      score:
+        type: int64
