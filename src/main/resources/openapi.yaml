@@ -20,12 +20,6 @@ paths:
       - "move"
       summary: "get list of legal moves from board state"
       operationId: "getLegalMovesFromBoardState"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/xml"
-      - "application/json"
       parameters:
       - in: "body"
         name: "boardState"
@@ -46,12 +40,6 @@ paths:
       - "evaluation"
       summary: "get an evaluation of the board"
       operationId: "getBoardEvaluation"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/xml"
-      - "application/json"
       parameters:
       - in: "body"
         name: "boardState"
