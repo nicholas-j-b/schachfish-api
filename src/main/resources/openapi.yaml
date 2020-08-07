@@ -40,30 +40,30 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/LegalMove"
-/evaluate:
-  post:
-    tags:
-    - "evaluation"
-    summary: "get an evaluation of the board"
-    operationId: "getBoardEvaluation"
-    consumes:
-    - "application/json"
-    - "application/xml"
-    produces:
-    - "application/xml"
-    - "application/json"
-    parameters:
-    - in: "body"
-      name: "boardState"
-      description: "list of pieces and positions / castling information"
-      required: true
-      schema: 
-        $ref: "#/definitions/BoardState"
-    responses:
-      "200":
-        description: "board evaluation"
-        schema:
-          $ref: "#/definitions/BoardEvaluation"
+  /evaluate:
+    post:
+      tags:
+      - "evaluation"
+      summary: "get an evaluation of the board"
+      operationId: "getBoardEvaluation"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "boardState"
+        description: "list of pieces and positions / castling information"
+        required: true
+        schema: 
+          $ref: "#/definitions/BoardState"
+      responses:
+        "200":
+          description: "board evaluation"
+          schema:
+            $ref: "#/definitions/BoardEvaluation"
 
 definitions:
   BoardState:
@@ -77,7 +77,91 @@ definitions:
       text:
         type: string
   BoardEvaluation:
-    type: "object":
+    type: "object"
     properties:
       score:
         type: int64
+        swagger: '2.0'
+info:
+  description: "Schachfish is a chess engine for querying moves and board evaluations"
+  version: "1.0.0"
+  title: "Schachfish-Api"
+host: "petstore.swagger.io"
+basePath: "/api"
+tags:
+- name: "move"
+  description: "legal moves"
+- name: "evaluation"
+  description: "value of board state"
+schemes:
+- "https"
+- "http"
+paths:
+  /moves:
+    post:
+      tags:
+      - "move"
+      summary: "get list of legal moves from board state"
+      operationId: "getLegalMovesFromBoardState"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "boardState"
+        description: "list of pieces and positions / castling information"
+        required: true
+        schema: 
+          $ref: "#/definitions/BoardState"
+      responses:
+        "200":
+          description: "list of legal moves"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/LegalMove"
+  /evaluate:
+    post:
+      tags:
+      - "evaluation"
+      summary: "get an evaluation of the board"
+      operationId: "getBoardEvaluation"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "boardState"
+        description: "list of pieces and positions / castling information"
+        required: true
+        schema: 
+          $ref: "#/definitions/BoardState"
+      responses:
+        "200":
+          description: "board evaluation"
+          schema:
+            $ref: "#/definitions/BoardEvaluation"
+
+definitions:
+  BoardState:
+    type: "object"
+    properties:
+      blackCanCastle:
+        type: "boolean"
+  LegalMove:
+    type: "object"
+    properties:
+      text:
+        type: string
+  BoardEvaluation:
+    type: "object"
+    properties:
+      score:
+        type: integer
+        format: int64
