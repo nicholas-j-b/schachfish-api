@@ -1,4 +1,3 @@
-swagger: '2.0'
 info:
   description: "Schachfish is a chess engine for querying moves and board evaluations"
   version: "1.0.0"
