@@ -1,0 +1,55 @@
+swagger: "2.0"
+info:
+  description: "Schachfish is a chess engine for querying moves and board evaluations"
+  version: "1.0.0"
+  title: "Schachfish-Api"
+host: "petstore.swagger.io"
+basePath: "/api"
+tags:
+- name: "move"
+  description: "legal moves"
+- name: "evaluation"
+  description: "value of board state"
+schemes:
+- "https"
+- "http"
+paths:
+  /moves:
+    post:
+      tags:
+      - "move"
+      summary: "get list of legal moves from board state"
+      operationId: "getLegalMovesFromBoardState"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "boardState"
+        description: "list of pieces and positions / castling information"
+        required: true
+        schema: 
+          $ref: "#/definitions/BoardState"
+      responses:
+        "200":
+          description: "list of legal moves"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/LegalMove"
+
+definitions:
+  BoardState:
+    type: "object"
+    properties:
+      blackCanCastle:
+        type: "boolean"
+  LegalMove:
+    type: "object"
+    properties:
+      text:
+        type: string
+  
