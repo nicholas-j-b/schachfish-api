@@ -92,8 +92,8 @@ definitions:
     type: "object"
     properties:
       score:
-        type: "integer"
-        format: "int64"
+        type: "number"
+        format: "double"
   PieceDto:
     type: "object"
     properties:
@@ -115,10 +115,10 @@ definitions:
     properties:
       x:
         type: "integer"
-        format: "int64"
+        format: "int32"
       y:
         type: "integer"
-        format: "int64"
+        format: "int32"
   MoveDto:
     type: "object"
     properties:
