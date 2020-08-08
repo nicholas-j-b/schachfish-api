@@ -69,16 +69,18 @@ definitions:
       canCastleQueenSide:
         type: "boolean"
       enPassant:
-        type: "object"
-        properties:
-          possible:
-            type: "boolean"
-          position:
-            $ref: "#/definitions/PositionDto"
+        $ref: "#/definitions/EnPassantDto"
       Pieces:
         type: "array"
         items:
           $ref: "#/definitions/PieceDto"
+  EnPassantDto:
+    type: "object"
+    properties:
+      possible: 
+        type: "boolean"
+      taken:
+        $ref: "#/definitions/PositionDto"
   LegalMoveDto:
     type: "object"
     properties:
