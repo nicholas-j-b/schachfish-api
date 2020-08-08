@@ -33,7 +33,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/LegalMovesDto"
+              $ref: "#/definitions/MoveCollectionDto"
   /evaluate:
     post:
       tags:
@@ -83,7 +83,7 @@ definitions:
         type: "boolean"
       taken:
         $ref: "#/definitions/PositionDto"
-  LegalMovesDto:
+  MoveCollectionDto:
     type: "object"
     properties:
       moves:
