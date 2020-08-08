@@ -124,3 +124,5 @@ definitions:
         $ref: "#/definitions/PositionDto"
       from:
         $ref: "#/definitions/PositionDto"
+      takenPiece:
+        $ref: "#/definitions/PositionDto"
