@@ -61,6 +61,10 @@ definitions:
         $ref: "#/definitions/ColourStatusDto"
       whiteStatus:
         $ref: "#/definitions/ColourStatusDto"
+      turn:
+        $ref: "#/definitions/Colour"
+      enPassant:
+        $ref: "#/definitions/EnPassantDto"
   ColourStatusDto:
     type: "object"
     properties:
@@ -68,8 +72,6 @@ definitions:
         type: "boolean"
       canCastleQueenSide:
         type: "boolean"
-      enPassant:
-        $ref: "#/definitions/EnPassantDto"
       Pieces:
         type: "array"
         items:
@@ -101,6 +103,11 @@ definitions:
         $ref: "#/definitions/PositionDto"
       name:
         $ref: "#/definitions/PieceNameDto"
+  Colour:
+    type: "string"
+    enum:
+    - "black"
+    - "white"
   PieceNameDto:
     type: "string"
     enum:
@@ -128,3 +135,4 @@ definitions:
         $ref: "#/definitions/PositionDto"
       takenPiece:
         $ref: "#/definitions/PositionDto"
+
