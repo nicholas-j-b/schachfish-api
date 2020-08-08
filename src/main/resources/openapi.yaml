@@ -102,13 +102,13 @@ definitions:
       position:
         $ref: "#/definitions/PositionDto"
       name:
-        $ref: "#/definitions/PieceNameDto"
+        $ref: "#/definitions/PieceName"
   Colour:
     type: "string"
     enum:
     - "black"
     - "white"
-  PieceNameDto:
+  PieceName:
     type: "string"
     enum:
     - "King"
