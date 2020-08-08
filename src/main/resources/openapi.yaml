@@ -26,14 +26,14 @@ paths:
         description: "list of pieces and positions / castling information"
         required: true
         schema: 
-          $ref: "#/definitions/BoardState"
+          $ref: "#/definitions/BoardStateDto"
       responses:
         "200":
           description: "list of legal moves"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/LegalMove"
+              $ref: "#/definitions/LegalMoveDto"
   /evaluate:
     post:
       tags:
@@ -46,24 +46,22 @@ paths:
         description: "list of pieces and positions / castling information"
         required: true
         schema: 
-          $ref: "#/definitions/BoardState"
+          $ref: "#/definitions/BoardStateDto"
       responses:
         "200":
           description: "board evaluation"
           schema:
-            $ref: "#/definitions/BoardEvaluation"
+            $ref: "#/definitions/BoardEvaluationDto"
 
 definitions:
-  BoardState:
+  BoardStateDto:
     type: "object"
     properties:
       blackStatus:
-        type: "object"
-        $ref: "#/definitions/ColourStatus"
+        $ref: "#/definitions/ColourStatusDto"
       whiteStatus:
-        type: "object"
-        $ref: "#/definitions/ColourStatus"
-  ColourStatus:
+        $ref: "#/definitions/ColourStatusDto"
+  ColourStatusDto:
     type: "object"
     properties:
       canCastleKingSide:
@@ -76,31 +74,32 @@ definitions:
           possible:
             type: "boolean"
           position:
-            $ref: "#/definitions/Position"
+            $ref: "#/definitions/PositionDto"
       Pieces:
         type: "array"
         items:
-          $ref: "#/definitions/Piece"
-  LegalMove:
+          $ref: "#/definitions/PieceDto"
+  LegalMoveDto:
     type: "object"
     properties:
-      text:
-        type: "string"
-  BoardEvaluation:
+      moves:
+        type: "array"
+        items:
+          $ref: "#/definitions/MoveDto"
+  BoardEvaluationDto:
     type: "object"
     properties:
       score:
         type: "integer"
         format: "int64"
-  Piece:
+  PieceDto:
     type: "object"
     properties:
       position:
-        $ref: "#/definitions/Position"
+        $ref: "#/definitions/PositionDto"
       name:
-        type: "string"
-        $ref: "#/definitions/PieceName"
-  PieceName:
+        $ref: "#/definitions/PieceNameDto"
+  PieceNameDto:
     type: "string"
     enum:
     - "King"
@@ -109,7 +108,7 @@ definitions:
     - "Bishop"
     - "Knight"
     - "Pawn"
-  Position:
+  PositionDto:
     type: "object"
     properties:
       x:
@@ -118,3 +117,10 @@ definitions:
       y:
         type: "integer"
         format: "int64"
+  MoveDto:
+    type: "object"
+    properties:
+      to:
+        $ref: "#/definitions/PositionDto"
+      from:
+        $ref: "#/definitions/PositionDto"
