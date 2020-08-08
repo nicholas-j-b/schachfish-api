@@ -81,13 +81,13 @@ definitions:
         type: "boolean"
       taken:
         $ref: "#/definitions/PositionDto"
-  LegalMoveDto:
+  LegalMovesDto:
     type: "object"
     properties:
       moves:
         type: "array"
         items:
-          $ref: "#/definitions/MovesDto"
+          $ref: "#/definitions/MoveDto"
   BoardEvaluationDto:
     type: "object"
     properties:
