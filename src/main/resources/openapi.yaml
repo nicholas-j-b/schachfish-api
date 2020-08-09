@@ -72,7 +72,7 @@ definitions:
         type: "boolean"
       canCastleQueenSide:
         type: "boolean"
-      Pieces:
+      pieces:
         type: "array"
         items:
           $ref: "#/definitions/PieceDto"
