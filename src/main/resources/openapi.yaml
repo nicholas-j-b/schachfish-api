@@ -135,4 +135,6 @@ definitions:
         $ref: "#/definitions/PositionDto"
       takenPiece:
         $ref: "#/definitions/PositionDto"
+      promoteTo:
+        $ref: "#/definitions/PieceName"
 
