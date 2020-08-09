@@ -111,12 +111,12 @@ definitions:
   PieceName:
     type: "string"
     enum:
-    - "King"
-    - "Queen"
-    - "Rook"
-    - "Bishop"
-    - "Knight"
-    - "Pawn"
+    - "king"
+    - "queen"
+    - "rook"
+    - "bishop"
+    - "knight"
+    - "pawn"
   PositionDto:
     type: "object"
     properties:
