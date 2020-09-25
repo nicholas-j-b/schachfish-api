@@ -4,7 +4,7 @@ info:
   description: Schachfish is a chess engine for making/querying moves and board evaluations
   version: 1.0.0
 servers:
-- url: https://chess.nicholasbrooking.com
+- url: https://chess.nicholasbrooking.com:9100
 tags:
 - name: move
   description: legal moves
@@ -68,6 +68,29 @@ paths:
                 description: message
         404:
           description: board not found
+          content:
+            '*/*':
+              schema:
+                type: string
+                description: message
+  
+  /board/all:
+    get:
+      tags:
+      - board
+      summary: get all boards
+      operationId: getAllBoards
+      responses:
+        200:
+          description: get all boards successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BoardStateDto'
+        400:
+          description: get cannot be processed
           content:
             '*/*':
               schema:
