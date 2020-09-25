@@ -1,140 +1,253 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  description: "Schachfish is a chess engine for querying moves and board evaluations"
-  version: "1.0.0"
-  title: "Schachfish-Api"
-host: "petstore.swagger.io"
-basePath: "/api"
+  title: Schachfish-Api
+  description: Schachfish is a chess engine for making/querying moves and board evaluations
+  version: 1.0.0
+servers:
+- url: https://chess.nicholasbrooking.com
 tags:
-- name: "move"
-  description: "legal moves"
-- name: "evaluation"
-  description: "value of board state"
-schemes:
-- "https"
-- "http"
+- name: move
+  description: legal moves
+- name: evaluation
+  description: value of board state
+- name: board
+  description: state of boards in session
+
 paths:
-  /moves:
+
+  /board/create:
     post:
       tags:
-      - "move"
-      summary: "get list of legal moves from board state"
-      operationId: "getLegalMovesFromBoardState"
-      parameters:
-      - in: "body"
-        name: "boardState"
-        description: "list of pieces and positions / castling information"
+      - board
+      summary: create a board
+      operationId: createBoardFromState
+      requestBody:
+        description: list of pieces and positions plus additional information
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BoardStateDto'
         required: true
-        schema: 
-          $ref: "#/definitions/BoardStateDto"
       responses:
-        "200":
-          description: "list of legal moves"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/MoveCollectionDto"
+        200:
+          description: boardstate
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BoardEvaluationDto'
+      x-codegen-request-body-name: boardState
+      
+  /board/{boardId}:
+    delete:
+      tags:
+      - board
+      summary: delete a board
+      operationId: deleteBoard
+      parameters: 
+      - name: boardId
+        in: path
+        description: id of the board to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: board deleted successfully
+          content:
+            '*/*':
+              schema:
+                type: string
+                description: message
+        400:
+          description: delete cannot be processed
+          content:
+            '*/*':
+              schema:
+                type: string
+                description: message
+        404:
+          description: board not found
+          content:
+            '*/*':
+              schema:
+                type: string
+                description: message
+
+  /moves/{boardId}:
+    get:
+      tags:
+      - move
+      summary: get list of legal moves from boardId
+      operationId: getLegalMovesFromBoardId
+      parameters:
+      - name: boardId
+        in: path
+        description: id of board to get
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: list of legal moves
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MoveCollectionDto'
+        404:
+          description: board not found
+    post:
+      tags:
+      - move
+      summary: makes move on board
+      operationId: makeMove
+      parameters: 
+      - name: boardId
+        in: path
+        description: id of the board
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: list of pieces and positions / castling information
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/MoveDto'
+        required: true
+        
+      responses:
+        200:
+          description: move made successfully
+          content:
+            '*/*':
+              schema:
+                type: string
+                description: message
+        400:
+          description: move cannot be processed
+          content:
+            '*/*':
+              schema:
+                type: string
+                description: message
+        404:
+          description: board not found
+          content:
+            '*/*':
+              schema:
+                type: string
+                description: message
+
   /evaluate:
     post:
       tags:
-      - "evaluation"
-      summary: "get an evaluation of the board"
-      operationId: "getBoardEvaluation"
-      parameters:
-      - in: "body"
-        name: "boardState"
-        description: "list of pieces and positions / castling information"
+      - evaluation
+      summary: get an evaluation of the board
+      operationId: getBoardEvaluation
+      requestBody:
+        description: list of pieces and positions / castling information
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/BoardStateDto'
         required: true
-        schema: 
-          $ref: "#/definitions/BoardStateDto"
       responses:
-        "200":
-          description: "board evaluation"
-          schema:
-            $ref: "#/definitions/BoardEvaluationDto"
+        200:
+          description: board evaluation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BoardEvaluationDto'
+      x-codegen-request-body-name: boardState
 
-definitions:
-  BoardStateDto:
-    type: "object"
-    properties:
-      blackStatus:
-        $ref: "#/definitions/ColourStatusDto"
-      whiteStatus:
-        $ref: "#/definitions/ColourStatusDto"
-      turn:
-        $ref: "#/definitions/Colour"
-      enPassant:
-        $ref: "#/definitions/EnPassantDto"
-  ColourStatusDto:
-    type: "object"
-    properties:
-      canCastleKingSide:
-        type: "boolean"
-      canCastleQueenSide:
-        type: "boolean"
-      pieces:
-        type: "array"
-        items:
-          $ref: "#/definitions/PieceDto"
-  EnPassantDto:
-    type: "object"
-    properties:
-      possible: 
-        type: "boolean"
-      taken:
-        $ref: "#/definitions/PositionDto"
-  MoveCollectionDto:
-    type: "object"
-    properties:
-      moves:
-        type: "array"
-        items:
-          $ref: "#/definitions/MoveDto"
-  BoardEvaluationDto:
-    type: "object"
-    properties:
-      score:
-        type: "number"
-        format: "double"
-  PieceDto:
-    type: "object"
-    properties:
-      position:
-        $ref: "#/definitions/PositionDto"
-      name:
-        $ref: "#/definitions/PieceName"
-  Colour:
-    type: "string"
-    enum:
-    - "black"
-    - "white"
-  PieceName:
-    type: "string"
-    enum:
-    - "king"
-    - "queen"
-    - "rook"
-    - "bishop"
-    - "knight"
-    - "pawn"
-  PositionDto:
-    type: "object"
-    properties:
-      x:
-        type: "integer"
-        format: "int32"
-      y:
-        type: "integer"
-        format: "int32"
-  MoveDto:
-    type: "object"
-    properties:
-      to:
-        $ref: "#/definitions/PositionDto"
-      from:
-        $ref: "#/definitions/PositionDto"
-      takenPiece:
-        $ref: "#/definitions/PositionDto"
-      promoteTo:
-        $ref: "#/definitions/PieceName"
+components:
+  schemas:
+    BoardStateDto:
+      type: object
+      properties:
+        blackStatus:
+          $ref: '#/components/schemas/ColourStatusDto'
+        whiteStatus:
+          $ref: '#/components/schemas/ColourStatusDto'
+        turn:
+          $ref: '#/components/schemas/Colour'
+        enPassant:
+          $ref: '#/components/schemas/EnPassantDto'
+    ColourStatusDto:
+      type: object
+      properties:
+        canCastleKingSide:
+          type: boolean
+        canCastleQueenSide:
+          type: boolean
+        pieces:
+          type: array
+          items:
+            $ref: '#/components/schemas/PieceDto'
+    EnPassantDto:
+      type: object
+      properties:
+        possible:
+          type: boolean
+        taken:
+          $ref: '#/components/schemas/PositionDto'
+    MoveCollectionDto:
+      type: object
+      properties:
+        moves:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoveDto'
+    BoardEvaluationDto:
+      type: object
+      properties:
+        score:
+          type: number
+          format: double
+    PieceDto:
+      type: object
+      properties:
+        position:
+          $ref: '#/components/schemas/PositionDto'
+        name:
+          $ref: '#/components/schemas/PieceName'
+    Colour:
+      type: string
+      enum:
+      - black
+      - white
+    PieceName:
+      type: string
+      enum:
+      - king
+      - queen
+      - rook
+      - bishop
+      - knight
+      - pawn
+    PositionDto:
+      type: object
+      properties:
+        x:
+          type: integer
+          format: int32
+        y:
+          type: integer
+          format: int32
+    MoveDto:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/PositionDto'
+        from:
+          $ref: '#/components/schemas/PositionDto'
+        takenPiece:
+          $ref: '#/components/schemas/PositionDto'
+        promoteTo:
+          $ref: '#/components/schemas/PieceName'
 
