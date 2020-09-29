@@ -2,9 +2,9 @@ openapi: 3.0.1
 info:
   title: Schachfish-Api
   description: Schachfish is a chess engine for making/querying moves and board evaluations
-  version: 0.0.3
+  version: 0.0.1
 servers:
-- url: https://chess.nicholasbrooking.com:9100
+- url: https://chess.nicholasbrooking.com:9101
 tags:
 - name: move
   description: legal moves
@@ -14,28 +14,25 @@ tags:
   description: state of boards in session
 
 paths:
-
   /board/create:
     post:
       tags:
       - board
       summary: create a board
-      operationId: createBoardFromState
-      requestBody:
-        description: list of pieces and positions plus additional information
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/BoardStateDto'
+      operationId: createBoardFromType
+      parameters: 
+      - in: query
         required: true
+        name: gameType
+        schema:
+          $ref: '#/components/schemas/GameType'
       responses:
         200:
-          description: boardstate
+          description: message
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/BoardEvaluationDto'
-      x-codegen-request-body-name: boardState
+                type: string
       
   /board/{boardId}:
     get:
@@ -46,7 +43,7 @@ paths:
       parameters: 
       - name: boardId
         in: path
-        description: id of the board to delete
+        description: id of the board to get
         required: true
         schema:
           type: integer
@@ -300,3 +297,7 @@ components:
           $ref: '#/components/schemas/PositionDto'
         promoteTo:
           $ref: '#/components/schemas/PieceName'
+    GameType:
+      type: string
+      enum:
+      - standard
