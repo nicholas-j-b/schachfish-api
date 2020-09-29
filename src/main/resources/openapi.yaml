@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: "Schachfish is a chess engine for querying moves and board evaluations"
-  version: "1.0.0"
+  version: "0.0.3"
   title: "Schachfish-Api"
 host: "petstore.swagger.io"
 basePath: "/api"
