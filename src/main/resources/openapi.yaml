@@ -38,6 +38,33 @@ paths:
       x-codegen-request-body-name: boardState
       
   /board/{boardId}:
+    get:
+      tags:
+      - board
+      summary: get board state
+      operationId: getBoard
+      parameters: 
+      - name: boardId
+        in: path
+        description: id of the board to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: get all boards successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BoardStateDto'
+        400:
+          description: get cannot be processed
+          content:
+            '*/*':
+              schema:
+                type: string
+                description: message
     delete:
       tags:
       - board
@@ -73,22 +100,22 @@ paths:
               schema:
                 type: string
                 description: message
-  
-  /board/all:
+      
+  /board/allIds:
     get:
       tags:
       - board
-      summary: get all boards
-      operationId: getAllBoards
+      summary: get all board ids
+      operationId: getAllBoardIds
       responses:
         200:
-          description: get all boards successfully
+          description: get all boards ids successfully
           content:
             '*/*':
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/BoardStateDto'
+                  type: string
         400:
           description: get cannot be processed
           content:
@@ -273,4 +300,3 @@ components:
           $ref: '#/components/schemas/PositionDto'
         promoteTo:
           $ref: '#/components/schemas/PieceName'
-
