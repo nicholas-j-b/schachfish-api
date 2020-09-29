@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Schachfish-Api
   description: Schachfish is a chess engine for making/querying moves and board evaluations
-  version: 1.0.0
+  version: 0.0.3
 servers:
 - url: https://chess.nicholasbrooking.com:9100
 tags:
