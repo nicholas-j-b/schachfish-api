@@ -115,7 +115,8 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
+                  type: integer
+                  format: int64
         400:
           description: get cannot be processed
           content:
