@@ -146,9 +146,7 @@ paths:
           content:
             '*/*':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MoveCollectionDto'
+                $ref: '#/components/schemas/MoveCollectionDto'
         404:
           description: board not found
           
