@@ -164,13 +164,13 @@ paths:
           type: integer
           format: int64
       requestBody:
-        description: list of pieces and positions / castling information
+        description: dto containing move information
         content:
           'application/json':
             schema:
               $ref: '#/components/schemas/MoveDto'
         required: true
-      x-codegen-request-body-name: boardStateDto
+      x-codegen-request-body-name: moveDto
       responses:
         200:
           description: move made successfully
