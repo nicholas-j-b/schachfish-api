@@ -33,8 +33,9 @@ paths:
           description: boardstate
           content:
             '*/*':
-              schema:
-                $ref: '#/components/schemas/BoardEvaluationDto'
+              schema:          
+                type: integer
+                format: int64      
       x-codegen-request-body-name: boardState
       
   /board/{boardId}:
