@@ -36,7 +36,7 @@ paths:
               schema:          
                 type: integer
                 format: int64      
-      x-codegen-request-body-name: boardState
+      x-codegen-request-body-name: boardStateDto
       
   /board/{boardId}:
     get:
@@ -151,6 +151,7 @@ paths:
                   $ref: '#/components/schemas/MoveCollectionDto'
         404:
           description: board not found
+          
     post:
       tags:
       - move
@@ -171,7 +172,7 @@ paths:
             schema:
               $ref: '#/components/schemas/MoveDto'
         required: true
-        
+      x-codegen-request-body-name: boardStateDto
       responses:
         200:
           description: move made successfully
@@ -215,7 +216,7 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/BoardEvaluationDto'
-      x-codegen-request-body-name: boardState
+      x-codegen-request-body-name: boardStateDto
 
 components:
   schemas:
