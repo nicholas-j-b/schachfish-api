@@ -217,8 +217,11 @@ paths:
 components:
   schemas:
     BoardId:
-      type: integer
-      format: int64
+      type: object
+      properties:
+        id: 
+          type: integer
+          format: int64
     BoardStateDto:
       type: object
       properties:
