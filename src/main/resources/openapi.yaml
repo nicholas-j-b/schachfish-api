@@ -34,8 +34,7 @@ paths:
           content:
             '*/*':
               schema:          
-                type: integer
-                format: int64      
+                $ref: '#/components/schemas/BoardId'    
       x-codegen-request-body-name: boardStateDto
       
   /board/{boardId}:
@@ -116,8 +115,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: integer
-                  format: int64
+                  $ref: '#/components/schemas/BoardId'
         400:
           description: get cannot be processed
           content:
@@ -164,13 +162,13 @@ paths:
           type: integer
           format: int64
       requestBody:
-        description: dto containing move information
+        description: list of pieces and positions / castling information
         content:
           'application/json':
             schema:
               $ref: '#/components/schemas/MoveDto'
         required: true
-      x-codegen-request-body-name: moveDto
+      x-codegen-request-body-name: boardStateDto
       responses:
         200:
           description: move made successfully
@@ -218,6 +216,9 @@ paths:
 
 components:
   schemas:
+    BoardId:
+      type: integer
+      format: int64
     BoardStateDto:
       type: object
       properties:
