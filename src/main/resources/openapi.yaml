@@ -25,7 +25,7 @@ paths:
         description: list of pieces and positions plus additional information
         content:
           'application/json':
-            'schema:
+            schema:
               $ref: '#/components/schemas/BoardStateDto'
         required: true
       responses:
