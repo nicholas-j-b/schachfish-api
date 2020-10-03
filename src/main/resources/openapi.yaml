@@ -24,8 +24,8 @@ paths:
       requestBody:
         description: list of pieces and positions plus additional information
         content:
-          '*/*':
-            schema:
+          'application/json':
+            'schema:
               $ref: '#/components/schemas/BoardStateDto'
         required: true
       responses:
