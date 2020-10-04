@@ -24,7 +24,7 @@ paths:
       requestBody:
         description: list of pieces and positions plus additional information
         content:
-          'application/json':
+          '*/*':
             schema:
               $ref: '#/components/schemas/BoardStateDto'
         required: true
@@ -32,7 +32,7 @@ paths:
         200:
           description: boardstate
           content:
-            '*/*':
+            'application/json':
               schema:          
                 $ref: '#/components/schemas/BoardId'    
       x-codegen-request-body-name: boardStateDto
@@ -142,7 +142,7 @@ paths:
         200:
           description: list of legal moves
           content:
-            '*/*':
+            'application/json':
               schema:
                 $ref: '#/components/schemas/MoveCollectionDto'
         404:
@@ -173,7 +173,7 @@ paths:
         200:
           description: move made successfully
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: string
                 description: message
@@ -209,7 +209,7 @@ paths:
         200:
           description: board evaluation
           content:
-            '*/*':
+            'application/json':
               schema:
                 $ref: '#/components/schemas/BoardEvaluationDto'
       x-codegen-request-body-name: boardStateDto
