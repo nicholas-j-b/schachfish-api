@@ -24,13 +24,13 @@ paths:
       requestBody:
         description: list of pieces and positions plus additional information
         content:
-          '*/*':
+          'application/json':
             schema:
               $ref: '#/components/schemas/BoardStateDto'
         required: true
       responses:
         200:
-          description: boardstate
+          description: boardId
           content:
             'application/json':
               schema:          
@@ -55,13 +55,13 @@ paths:
         200:
           description: get all boards successfully
           content:
-            '*/*':
+            'application/json':
               schema:
                 $ref: '#/components/schemas/BoardStateDto'
         400:
           description: get cannot be processed
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: string
                 description: message
@@ -82,21 +82,21 @@ paths:
         200:
           description: board deleted successfully
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: string
                 description: message
         400:
           description: delete cannot be processed
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: string
                 description: message
         404:
           description: board not found
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: string
                 description: message
@@ -119,7 +119,7 @@ paths:
         400:
           description: get cannot be processed
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: string
                 description: message
@@ -147,6 +147,11 @@ paths:
                 $ref: '#/components/schemas/MoveCollectionDto'
         404:
           description: board not found
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
           
     post:
       tags:
@@ -180,14 +185,14 @@ paths:
         400:
           description: move cannot be processed
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: string
                 description: message
         404:
           description: board not found
           content:
-            '*/*':
+            'application/json':
               schema:
                 type: string
                 description: message
