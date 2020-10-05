@@ -1,0 +1,312 @@
+openapi: 3.0.1
+info:
+  title: Schachfish-Api
+  description: Schachfish is a chess engine for making/querying moves and board evaluations
+  version: 0.0.3
+servers:
+- url: https://chess.nicholasbrooking.com:9100
+tags:
+- name: move
+  description: legal moves
+- name: evaluation
+  description: value of board state
+- name: board
+  description: state of boards in session
+
+paths:
+
+  /board/create:
+    post:
+      tags:
+      - board
+      summary: create a board
+      operationId: createBoardFromState
+      requestBody:
+        description: list of pieces and positions plus additional information
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/BoardStateDto'
+        required: true
+      responses:
+        200:
+          description: boardId
+          content:
+            'application/json':
+              schema:          
+                $ref: '#/components/schemas/BoardId'    
+      x-codegen-request-body-name: boardStateDto
+      
+  /board/{boardId}:
+    get:
+      tags:
+      - board
+      summary: get board state
+      operationId: getBoard
+      parameters: 
+      - name: boardId
+        in: path
+        description: id of the board to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: get all boards successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BoardStateDto'
+        400:
+          description: get cannot be processed
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+    delete:
+      tags:
+      - board
+      summary: delete a board
+      operationId: deleteBoard
+      parameters: 
+      - name: boardId
+        in: path
+        description: id of the board to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: board deleted successfully
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+        400:
+          description: delete cannot be processed
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+        404:
+          description: board not found
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+      
+  /board/allIds:
+    get:
+      tags:
+      - board
+      summary: get all board ids
+      operationId: getAllBoardIds
+      responses:
+        200:
+          description: get all boards ids successfully
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BoardId'
+        400:
+          description: get cannot be processed
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+
+  /moves/{boardId}:
+    get:
+      tags:
+      - move
+      summary: get list of legal moves from boardId
+      operationId: getLegalMovesFromBoardId
+      parameters:
+      - name: boardId
+        in: path
+        description: id of board to get
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: list of legal moves
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/MoveCollectionDto'
+        404:
+          description: board not found
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+          
+    post:
+      tags:
+      - move
+      summary: makes move on board
+      operationId: makeMove
+      parameters: 
+      - name: boardId
+        in: path
+        description: id of the board
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: list of pieces and positions / castling information
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/MoveDto'
+        required: true
+      x-codegen-request-body-name: boardStateDto
+      responses:
+        200:
+          description: move made successfully
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+        400:
+          description: move cannot be processed
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+        404:
+          description: board not found
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+
+  /evaluate:
+    post:
+      tags:
+      - evaluation
+      summary: get an evaluation of the board
+      operationId: getBoardEvaluation
+      requestBody:
+        description: list of pieces and positions / castling information
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/BoardStateDto'
+        required: true
+      responses:
+        200:
+          description: board evaluation
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BoardEvaluationDto'
+      x-codegen-request-body-name: boardStateDto
+
+components:
+  schemas:
+    BoardId:
+      type: object
+      properties:
+        id: 
+          type: integer
+          format: int64
+    BoardStateDto:
+      type: object
+      properties:
+        blackStatus:
+          $ref: '#/components/schemas/ColourStatusDto'
+        whiteStatus:
+          $ref: '#/components/schemas/ColourStatusDto'
+        turn:
+          $ref: '#/components/schemas/Colour'
+        enPassant:
+          $ref: '#/components/schemas/EnPassantDto'
+    ColourStatusDto:
+      type: object
+      properties:
+        canCastleKingSide:
+          type: boolean
+        canCastleQueenSide:
+          type: boolean
+        pieces:
+          type: array
+          items:
+            $ref: '#/components/schemas/PieceDto'
+    EnPassantDto:
+      type: object
+      properties:
+        possible:
+          type: boolean
+        taken:
+          $ref: '#/components/schemas/PositionDto'
+    MoveCollectionDto:
+      type: object
+      properties:
+        moves:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoveDto'
+    BoardEvaluationDto:
+      type: object
+      properties:
+        score:
+          type: number
+          format: double
+    PieceDto:
+      type: object
+      properties:
+        position:
+          $ref: '#/components/schemas/PositionDto'
+        name:
+          $ref: '#/components/schemas/PieceName'
+    Colour:
+      type: string
+      enum:
+      - black
+      - white
+    PieceName:
+      type: string
+      enum:
+      - king
+      - queen
+      - rook
+      - bishop
+      - knight
+      - pawn
+    PositionDto:
+      type: object
+      properties:
+        x:
+          type: integer
+          format: int32
+        y:
+          type: integer
+          format: int32
+    MoveDto:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/PositionDto'
+        from:
+          $ref: '#/components/schemas/PositionDto'
+        takenPiece:
+          $ref: '#/components/schemas/PositionDto'
+        promoteTo:
+          $ref: '#/components/schemas/PieceName'
