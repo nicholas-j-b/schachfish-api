@@ -1,0 +1,140 @@
+swagger: "2.0"
+info:
+  description: "Schachfish is a chess engine for querying moves and board evaluations"
+  version: "0.0.3"
+  title: "Schachfish-Api"
+host: "petstore.swagger.io"
+basePath: "/api"
+tags:
+- name: "move"
+  description: "legal moves"
+- name: "evaluation"
+  description: "value of board state"
+schemes:
+- "https"
+- "http"
+paths:
+  /moves:
+    post:
+      tags:
+      - "move"
+      summary: "get list of legal moves from board state"
+      operationId: "getLegalMovesFromBoardState"
+      parameters:
+      - in: "body"
+        name: "boardState"
+        description: "list of pieces and positions / castling information"
+        required: true
+        schema: 
+          $ref: "#/definitions/BoardStateDto"
+      responses:
+        "200":
+          description: "list of legal moves"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/MoveCollectionDto"
+  /evaluate:
+    post:
+      tags:
+      - "evaluation"
+      summary: "get an evaluation of the board"
+      operationId: "getBoardEvaluation"
+      parameters:
+      - in: "body"
+        name: "boardState"
+        description: "list of pieces and positions / castling information"
+        required: true
+        schema: 
+          $ref: "#/definitions/BoardStateDto"
+      responses:
+        "200":
+          description: "board evaluation"
+          schema:
+            $ref: "#/definitions/BoardEvaluationDto"
+
+definitions:
+  BoardStateDto:
+    type: "object"
+    properties:
+      blackStatus:
+        $ref: "#/definitions/ColourStatusDto"
+      whiteStatus:
+        $ref: "#/definitions/ColourStatusDto"
+      turn:
+        $ref: "#/definitions/Colour"
+      enPassant:
+        $ref: "#/definitions/EnPassantDto"
+  ColourStatusDto:
+    type: "object"
+    properties:
+      canCastleKingSide:
+        type: "boolean"
+      canCastleQueenSide:
+        type: "boolean"
+      pieces:
+        type: "array"
+        items:
+          $ref: "#/definitions/PieceDto"
+  EnPassantDto:
+    type: "object"
+    properties:
+      possible: 
+        type: "boolean"
+      taken:
+        $ref: "#/definitions/PositionDto"
+  MoveCollectionDto:
+    type: "object"
+    properties:
+      moves:
+        type: "array"
+        items:
+          $ref: "#/definitions/MoveDto"
+  BoardEvaluationDto:
+    type: "object"
+    properties:
+      score:
+        type: "number"
+        format: "double"
+  PieceDto:
+    type: "object"
+    properties:
+      position:
+        $ref: "#/definitions/PositionDto"
+      name:
+        $ref: "#/definitions/PieceName"
+  Colour:
+    type: "string"
+    enum:
+    - "black"
+    - "white"
+  PieceName:
+    type: "string"
+    enum:
+    - "king"
+    - "queen"
+    - "rook"
+    - "bishop"
+    - "knight"
+    - "pawn"
+  PositionDto:
+    type: "object"
+    properties:
+      x:
+        type: "integer"
+        format: "int32"
+      y:
+        type: "integer"
+        format: "int32"
+  MoveDto:
+    type: "object"
+    properties:
+      to:
+        $ref: "#/definitions/PositionDto"
+      from:
+        $ref: "#/definitions/PositionDto"
+      takenPiece:
+        $ref: "#/definitions/PositionDto"
+      promoteTo:
+        $ref: "#/definitions/PieceName"
+
