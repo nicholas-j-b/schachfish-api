@@ -238,7 +238,7 @@ paths:
               schema:
                 type: string
                 
-  /user/register:
+  /user/new/register:
     post:
       tags: 
       - user
