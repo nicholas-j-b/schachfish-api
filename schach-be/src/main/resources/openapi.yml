@@ -321,7 +321,53 @@ paths:
                 type: string
         401:
           $ref: '#/components/responses/UnauthorizedError'
-
+  
+  /user/admin/updateUserRoles/{username}:
+    post:
+      tags:
+      - user
+      summary: update the roles of a user
+      operationId: updateUserRoles
+      security:
+      - basicAuth: []
+      parameters: 
+      - name: username
+        in: path
+        description: username of user to be updated
+        required: true
+        schema:
+          type: string
+      - name: append
+        in: query
+        description: whether to append the roles
+        required: true
+        schema:
+          type: boolean
+      x-codegen-request-body-name: userRoles
+      requestBody:
+        description: list of user roles
+        content:
+          'application/json':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserRole'
+      responses:
+        200:
+          description: successfully updated user roles
+          content:
+            'application/json':
+              schema:
+                type: string
+        400:
+          description: failure to update user roles
+          content:
+            'application/json':
+              schema:
+                type: string
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+          
 components:
   securitySchemes:
     basicAuth:
