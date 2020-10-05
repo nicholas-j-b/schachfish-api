@@ -4,7 +4,7 @@ info:
   description: Schachfish is a chess engine for making/querying moves and board evaluations
   version: 0.0.1
 servers:
-- url: https://chess.nicholasbrooking.com:9101
+  - url: http://localhost:9101
 tags:
 - name: move
   description: legal moves
