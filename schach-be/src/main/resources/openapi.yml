@@ -14,6 +14,8 @@ tags:
   description: state of boards in session
 - name: health
   description: basic health status info
+- name: user
+  description: user management
 
 paths:
   /board/create:
@@ -235,6 +237,33 @@ paths:
             'application/json':
               schema:
                 type: string
+                
+  /user/register:
+    post:
+      tags: 
+      - user
+      summary: register a new user
+      operationId: registerNewUser
+      requestBody:
+        description: new user information
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/NewUserDto'
+      responses:
+        200:
+          description: successfully created a new user
+          content:
+            'application/json':
+              schema:
+                type: string
+        400:
+          description: user not successfully created
+          content:
+            'application/json':
+              schema:
+                type: string
+      x-codegen-request-body-name: newUserDto
 
 components:
   securitySchemes:
@@ -249,6 +278,13 @@ components:
           schema:
             type: string
   schemas:
+    NewUserDto:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
     BoardId:
       type: object
       properties:
