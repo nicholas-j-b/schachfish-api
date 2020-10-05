@@ -104,6 +104,8 @@ paths:
       - board
       summary: get all board ids
       operationId: getAllBoardIds
+      security: 
+      - basicAuth: []
       responses:
         200:
           description: get all boards ids successfully
@@ -120,6 +122,8 @@ paths:
               schema:
                 type: string
                 description: message
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
 
   /moves/{boardId}:
     get:
@@ -217,6 +221,17 @@ paths:
       x-codegen-request-body-name: boardStateDto
 
 components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  responses:
+    UnauthorizedError:
+      description: Auth info is missing or invalid
+      headers:
+        WWW_Athenticate:
+          schema:
+            type: string
   schemas:
     BoardId:
       type: object
@@ -311,3 +326,6 @@ components:
       type: string
       enum:
       - standard
+
+security: 
+- basicAuth: []
