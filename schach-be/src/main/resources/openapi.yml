@@ -350,8 +350,8 @@ components:
         roles:
           type: array
           items:
-            $ref: '#/components/schemas/UserRoles'
-    UserRoles:
+            $ref: '#/components/schemas/UserRole'
+    UserRole:
       type: string
       enum: 
       - ADMIN
