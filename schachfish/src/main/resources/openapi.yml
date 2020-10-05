@@ -4,7 +4,7 @@ info:
   description: Schachfish is a chess engine for making/querying moves and board evaluations
   version: 0.0.3
 servers:
-- url: https://chess.nicholasbrooking.com:9100
+- url: https://localhost:9100
 tags:
 - name: move
   description: legal moves
@@ -46,7 +46,7 @@ paths:
       parameters: 
       - name: boardId
         in: path
-        description: id of the board to delete
+        description: id of the board to get
         required: true
         schema:
           type: integer
@@ -310,3 +310,7 @@ components:
           $ref: '#/components/schemas/PositionDto'
         promoteTo:
           $ref: '#/components/schemas/PieceName'
+    GameType:
+      type: string
+      enum:
+      - standard
