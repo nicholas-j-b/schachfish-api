@@ -264,6 +264,33 @@ paths:
               schema:
                 type: string
       x-codegen-request-body-name: newUserDto
+      
+  /user/exists/{username}:
+    get:
+      tags: 
+      - user
+      summary: check if a user exists by username
+      operationId: getUserExists
+      parameters: 
+      - name: username
+        in: path
+        description: username to check
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: response whether user exists
+          content:
+            'application/json':
+              schema:
+                type: boolean
+        400:
+          description: user not successfully searched
+          content:
+            'application/json':
+              schema:
+                type: string
 
 components:
   securitySchemes:
