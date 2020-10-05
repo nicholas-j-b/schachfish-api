@@ -208,6 +208,8 @@ paths:
       - evaluation
       summary: get an evaluation of the board
       operationId: getBoardEvaluation
+      security: 
+      - basicAuth: []
       requestBody:
         description: list of pieces and positions / castling information
         content:
@@ -271,6 +273,8 @@ paths:
       - user
       summary: check if a user exists by username
       operationId: getUserExists
+      security: 
+      - basicAuth: []
       parameters: 
       - name: username
         in: path
@@ -291,6 +295,32 @@ paths:
             'application/json':
               schema:
                 type: string
+  
+  /user/admin/getAllUsers:
+    get:
+      tags: 
+      - user
+      summary: get all users
+      operationId: getAllUsers
+      security: 
+      - basicAuth: []
+      responses:
+        200:
+          description: list of all users
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDto'
+        400:
+          description: failed to get users
+          content:
+            'application/json':
+              schema:
+                type: string
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
 
 components:
   securitySchemes:
@@ -312,6 +342,20 @@ components:
           type: string
         password:
           type: string
+    UserDto:
+      type: object
+      properties:
+        username:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRoles'
+    UserRoles:
+      type: string
+      enum: 
+      - ADMIN
+      - PLAYER
     BoardId:
       type: object
       properties:
