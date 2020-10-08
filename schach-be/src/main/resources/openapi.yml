@@ -258,7 +258,7 @@ paths:
           content:
             'application/json':
               schema:
-                type: string
+              $ref: '#/components/schemas/Message'
         400:
           description: user not successfully created
           content:
@@ -381,7 +381,7 @@ components:
           schema:
             type: string
   schemas:
-    Message:
+    MessageDto:
       type: object
       properties:
         message:
