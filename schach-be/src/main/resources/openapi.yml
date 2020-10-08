@@ -238,7 +238,7 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/MessageDto'
                 
   /user/new/register:
     post:
@@ -258,7 +258,7 @@ paths:
           content:
             'application/json':
               schema:
-              $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/MessageDto'
         400:
           description: user not successfully created
           content:
