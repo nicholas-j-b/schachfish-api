@@ -238,7 +238,7 @@ paths:
           content:
             'application/json':
               schema:
-                type: string
+                $ref: '#/components/schemas/Message'
                 
   /user/new/register:
     post:
@@ -381,6 +381,11 @@ components:
           schema:
             type: string
   schemas:
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
     NewUserDto:
       type: object
       properties:
