@@ -258,13 +258,15 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/MessageDto'
+                type: boolean
         400:
           description: user not successfully created
           content:
             'application/json':
               schema:
                 type: string
+        403:
+          $ref: '#/components/responses/UsernameExistsError'
       x-codegen-request-body-name: newUserDto
       
   /user/exists/{username}:
@@ -380,6 +382,8 @@ components:
         WWW_Athenticate:
           schema:
             type: string
+    UsernameExistsError:
+      description: Username already exists
   schemas:
     MessageDto:
       type: object
