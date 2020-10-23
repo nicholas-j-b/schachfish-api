@@ -694,9 +694,9 @@ components:
     MoveDto:
       type: object
       properties:
-        to:
-          $ref: '#/components/schemas/PositionDto'
         from:
+          $ref: '#/components/schemas/PositionDto'
+        to:
           $ref: '#/components/schemas/PositionDto'
         takenPiece:
           $ref: '#/components/schemas/PositionDto'
