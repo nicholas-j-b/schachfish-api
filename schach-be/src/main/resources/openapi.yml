@@ -12,10 +12,12 @@ tags:
   description: value of board state
 - name: board
   description: state of boards in session
-- name: health
-  description: basic health status info
 - name: user
   description: user management
+- name: lobby
+  description: info about current games
+- name: health
+  description: basic health status info
 
 paths:
   /board/create:
@@ -369,6 +371,126 @@ paths:
                 type: string
         401:
           $ref: '#/components/responses/UnauthorizedError'
+  
+  /lobby/{gameType}/games:
+    get:
+      tags:
+      - lobby
+      summary: get all board ids
+      operationId: getAllGamesInLobby
+      security: 
+      - basicAuth: []
+      parameters: 
+      - name: gameType
+        in: path
+        description: type of game
+        required: true
+        schema: 
+          $ref: '#/components/schemas/GameType'
+      responses:
+        200:
+          description: get all boards ids successfully
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GameInfo'
+        400:
+          description: get cannot be processed
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+  
+  /lobby/{gameType}/create:
+    post:
+      tags: 
+      - lobby
+      summary: create a game
+      operationId: createGame
+      security: 
+      - basicAuth: []
+      parameters: 
+      - name: gameType
+        in: path
+        description: type of game
+        required: true
+        schema:
+          $ref: '#/components/schemas/GameType'
+      requestBody:
+        description: new game information
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/CreateGameDto'
+      responses:
+        200:
+          description: create game successfully
+          content:
+            'application/json':
+              schema:
+                type: boolean
+        400:
+          description: create cannot be processed
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+      x-codegen-request-body-name: CreateGameDto
+  
+  /lobby/{gameType}/join/{gameId}:
+    post:
+      tags:
+      - lobby
+      summary: join game
+      operationId: joinGame
+      security: 
+      - basicAuth: []
+      parameters: 
+      - name: gameType
+        in: path
+        description: type of game
+        required: true
+        schema: 
+          $ref: '#/components/schemas/GameType'
+      - name: gameId
+        in: path
+        description: type of game
+        required: true
+        schema: 
+          type: integer
+          format: int64
+      requestBody:
+        description: new game information
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/JoinGameDto'
+      responses:
+        200:
+          description: join game successfully
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GameInfo'
+        400:
+          description: get cannot be processed
+          content:
+            'application/json':
+              schema:
+                type: string
+                description: message
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
           
 components:
   securitySchemes:
@@ -504,6 +626,47 @@ components:
       type: string
       enum:
       - standard
-
+    GameInfo:
+      type: object
+      properties:
+        gameType:
+          $ref: '#/components/schemas/GameType'
+        white:
+          type: string
+        black:
+          type: string
+        spectators:
+          type: array
+          items:
+            type: string
+        gameState:
+          $ref: '#/components/schemas/GameState'
+    CreateGameDto:
+      type: object
+      properties:
+        gameType:
+          $ref: '#/components/schemas/GameType'
+        challengerUsername:
+          type: string
+        challengedUsername:
+          type: string
+    JoinGameDto:
+      type: object
+      properties:
+        playerType:
+          $ref: '#/components/schemas/PlayerType'
+    PlayerType:
+      type: string
+      enum:
+      - player
+      - spectator
+    GameState:
+      type: string
+      enum:
+      - active
+      - complete
+      - open
+      - inactive
+        
 security: 
 - basicAuth: []
