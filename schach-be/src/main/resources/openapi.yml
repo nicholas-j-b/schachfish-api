@@ -18,6 +18,8 @@ tags:
   description: info about current games
 - name: health
   description: basic health status info
+- name: game
+  description: concerning game types
 
 paths:
   /board/create:
@@ -132,12 +134,12 @@ paths:
         401:
           $ref: '#/components/responses/UnauthorizedError'
           
-  /board/state/{username}/create:
+  /game/state/{username}/create:
     post:
       tags: 
-      - board
-      summary: add a board state
-      operationId: addBoardStateForUser
+      - game
+      summary: add a game board state
+      operationId: addGameStateForUser
       security: 
       - basicAuth: []
       parameters:
@@ -146,7 +148,12 @@ paths:
         required: true
         schema:
           type: string
-        description: id of user whose board states to add to
+        description: id of user whose game states to add to
+      - name: positionName
+        in: query
+        required: true
+        schema:
+          type: string
       requestBody:
         description: boardState information
         content:
@@ -155,14 +162,15 @@ paths:
               $ref: '#/components/schemas/BoardStateDto'
       responses:
         200:
-          description: successfully added a boardstate
+          description: successfully added a game state
           content:
             'application/json':
               schema:
                 type: integer
                 format: int64
+                description: id of gamestate
         400:
-          description: board not successfully added
+          description: game state not successfully added
           content:
             'application/json':
               schema:
@@ -171,12 +179,12 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
       x-codegen-request-body-name: boardStateDto
 
-  /board/state/{username}:
+  /game/state/{username}:
     get:
       tags: 
-      - board
-      summary: get all board states for user
-      operationId: getBoardStatesForUser
+      - game
+      summary: get all game states for user
+      operationId: getGameStatesForUser
       security: 
       - basicAuth: []
       parameters:
@@ -186,10 +194,10 @@ paths:
         schema:
           type: integer
           format: int64
-        description: id of user whose board states to get
+        description: id of user whose game states to get
       responses:
         200:
-          description: successfully get all boardstates
+          description: successfully get all game states
           content:
             'application/json':
               schema:
