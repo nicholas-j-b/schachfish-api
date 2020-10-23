@@ -152,6 +152,8 @@ paths:
           content:
             'application/json':
               schema:
+                type: array
+                items:
                   $ref: '#/components/schemas/MoveCollectionDto'
         404:
           description: board not found
@@ -179,7 +181,7 @@ paths:
         content:
           'application/json':
             schema:
-              $ref: '#/components/schemas/MoveDto'
+              $ref: '#/components/schemas/MoveCollectionDto'
         required: true
       x-codegen-request-body-name: boardStateDto
       responses:
@@ -543,8 +545,10 @@ components:
           $ref: '#/components/schemas/ColourStatusDto'
         turn:
           $ref: '#/components/schemas/Colour'
-        moveCollection:
-          $ref: '#/components/schemas/MoveCollectionDto'
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoveCollectionDto'
     ColourStatusDto:
       type: object
       properties:
