@@ -131,6 +131,80 @@ paths:
                 description: message
         401:
           $ref: '#/components/responses/UnauthorizedError'
+          
+  /board/state/{userId}/create:
+    post:
+      tags: 
+      - board
+      summary: add a board state
+      operationId: addBoardStateForUser
+      security: 
+      - basicAuth: []
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+        description: id of user whose board states to add to
+      requestBody:
+        description: boardState information
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/BoardStateDto'
+      responses:
+        200:
+          description: successfully added a boardstate
+          content:
+            'application/json':
+              schema:
+                type: integer
+                format: int64
+        400:
+          description: board not successfully added
+          content:
+            'application/json':
+              schema:
+                type: string
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+      x-codegen-request-body-name: boardStateDto
+
+  /board/state/{userId}:
+    get:
+      tags: 
+      - board
+      summary: get all board states for user
+      operationId: getBoardStatesForUser
+      security: 
+      - basicAuth: []
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+        description: id of user whose board states to get
+      responses:
+        200:
+          description: successfully get all boardstates
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BoardStateDto'
+        400:
+          description: board not successfully added
+          content:
+            'application/json':
+              schema:
+                type: string
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
 
   /moves/{boardId}:
     get:
