@@ -34,7 +34,8 @@ paths:
           content:
             'application/json':
               schema:          
-                $ref: '#/components/schemas/BoardId'    
+                type: integer
+                format: int64
       x-codegen-request-body-name: boardStateDto
       
   /board/{boardId}:
@@ -115,7 +116,8 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/BoardId'
+                  type: integer
+                  format: int64
         400:
           description: get cannot be processed
           content:
@@ -221,12 +223,6 @@ paths:
 
 components:
   schemas:
-    BoardId:
-      type: object
-      properties:
-        id: 
-          type: integer
-          format: int64
     BoardStateDto:
       type: object
       properties:
@@ -236,8 +232,8 @@ components:
           $ref: '#/components/schemas/ColourStatusDto'
         turn:
           $ref: '#/components/schemas/Colour'
-        enPassant:
-          $ref: '#/components/schemas/EnPassantDto'
+        moveCollection:
+          $ref: '#/components/schemas/MoveCollectionDto'
     ColourStatusDto:
       type: object
       properties:
