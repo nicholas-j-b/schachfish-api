@@ -132,7 +132,7 @@ paths:
         401:
           $ref: '#/components/responses/UnauthorizedError'
           
-  /board/state/{userId}/create:
+  /board/state/{username}/create:
     post:
       tags: 
       - board
@@ -141,12 +141,11 @@ paths:
       security: 
       - basicAuth: []
       parameters:
-      - name: userId
+      - name: username
         in: path
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
         description: id of user whose board states to add to
       requestBody:
         description: boardState information
@@ -172,7 +171,7 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
       x-codegen-request-body-name: boardStateDto
 
-  /board/state/{userId}:
+  /board/state/{username}:
     get:
       tags: 
       - board
@@ -181,7 +180,7 @@ paths:
       security: 
       - basicAuth: []
       parameters:
-      - name: userId
+      - name: username
         in: path
         required: true
         schema:
