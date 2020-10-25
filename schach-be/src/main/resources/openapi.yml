@@ -192,8 +192,7 @@ paths:
         in: path
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
         description: id of user whose game states to get
       responses:
         200:
