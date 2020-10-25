@@ -183,7 +183,42 @@ paths:
     get:
       tags: 
       - game
-      summary: get all game states for user
+      summary: get all game state names for user
+      operationId: getGameStateNamesForUser
+      security: 
+      - basicAuth: []
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+        description: username for user whose game states to get
+      responses:
+        200:
+          description: successfully get all game states names for user
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: string
+        400:
+          description: game state list not successfully gotten
+          content:
+            'application/json':
+              schema:
+                type: string
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/SchachbeNotFound'
+
+  /game/state/{username}/{positionName}:
+    get:
+      tags: 
+      - game
+      summary: get all game state names for user
       operationId: getGameStatesForUser
       security: 
       - basicAuth: []
@@ -193,24 +228,30 @@ paths:
         required: true
         schema:
           type: string
-        description: id of user whose game states to get
+        description: username for user whose game state to get
+      - name: positionName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: position name of gamestate to get
       responses:
         200:
-          description: successfully get all game states
+          description: successfully get game state
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/BoardStateDto'
+                $ref: '#/components/schemas/BoardStateDto'
         400:
-          description: board not successfully added
+          description: board not successfully gotten
           content:
             'application/json':
               schema:
                 type: string
         401:
           $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/SchachbeNotFound'
 
   /moves/{boardId}:
     get:
@@ -589,6 +630,16 @@ components:
             type: string
     UsernameExistsError:
       description: Username already exists
+      content:
+        'application/json':
+          schema:
+            type: string
+    SchachbeNotFound:
+      description: Item not found
+      content:
+        'application/json':
+          schema:
+            type: string
   schemas:
     MessageDto:
       type: object
