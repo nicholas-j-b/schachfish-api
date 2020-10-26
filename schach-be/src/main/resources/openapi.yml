@@ -763,6 +763,8 @@ components:
           type: string
         participationType:
           $ref: '#/components/schemas/ParticipationType'
+        colour:
+          $ref: '#/components/schemas/Colour'
     ParticipationType:
       type: string
       enum:
