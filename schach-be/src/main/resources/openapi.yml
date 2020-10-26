@@ -500,7 +500,7 @@ paths:
     get:
       tags:
       - lobby
-      summary: get all board ids
+      summary: get all games
       operationId: getAllGamesInLobby
       security: 
       - basicAuth: []
@@ -511,6 +511,11 @@ paths:
         required: true
         schema: 
           $ref: '#/components/schemas/GameType'
+      - name: gameState
+        in: query
+        description: how joinable is the game
+        schema:
+          $ref: '#/components/schemas/GameState'
       responses:
         200:
           description: get all boards ids successfully
