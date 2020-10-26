@@ -756,19 +756,27 @@ components:
       type: string
       enum:
       - standard
+    GameUserDto:
+      type: object
+      properties:
+        username:
+          type: string
+        participationType:
+          $ref: '#/components/schemas/ParticipationType'
+    ParticipationType:
+      type: string
+      enum:
+      - player
+      - spectator
     GameInfoDto:
       type: object
       properties:
         gameType:
           $ref: '#/components/schemas/GameType'
-        white:
-          type: string
-        black:
-          type: string
-        spectators:
+        participants:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/GameUserDto'
         gameState:
           $ref: '#/components/schemas/GameState'
     CreateGameDto:
