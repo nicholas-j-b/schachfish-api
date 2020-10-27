@@ -646,9 +646,7 @@ paths:
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GameInfoDto'
+                type: string
         400:
           description: get cannot be processed
           content:
