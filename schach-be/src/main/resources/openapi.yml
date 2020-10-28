@@ -814,6 +814,9 @@ components:
     GameInfoDto:
       type: object
       properties:
+        gameId:
+          type: integer
+          format: int64
         gameType:
           $ref: '#/components/schemas/GameType'
         participants:
